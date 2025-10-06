@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 3.w,
                   mainAxisSpacing: 3.w,
-                  childAspectRatio: 0.8,
+                  childAspectRatio: 0.9,
                 ),
                 itemBuilder: (context, index) {
                   return InkWell(
@@ -168,8 +168,8 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 child: Image.asset(
                                   "assets/images/one.png",
-                                  width: 12.w,
-                                  height: 12.w,
+                                  width: 8.w,
+                                  height: 8.w,
                                   fit: BoxFit.cover,
                                 ),
                               ),

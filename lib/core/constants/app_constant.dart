@@ -14,4 +14,5 @@ class AppConstants {
   static const btnCashOut = "Retrait";
   static const btnJob = "Postuler";
   static const btnJobSend = "Postuler Maintenant";
+  static const btnSave = "Enregistrer";
 }

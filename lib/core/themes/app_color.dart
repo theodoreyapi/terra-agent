@@ -8,3 +8,5 @@ Color appColorYellow = const Color(0xFFFFD400);
 Color appColorGrey = const Color(0xFFF5F5F5);
 Color appColorBlack = const Color(0xFF000000);
 Color appWhite = const Color(0xFFFFFFFF);
+Color appRedOpacity = const Color(0xFFFF0000);
+Color appColorMarron = const Color(0xFF6C2710);
