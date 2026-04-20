@@ -32,7 +32,7 @@ class CancelButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: couleur ?? appWhite,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.w),
+            borderRadius: BorderRadius.circular(3.w),
             side: BorderSide(color: appColor),
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:sizer/sizer.dart';
 import 'package:terra_agent/core/constants/constants.dart';
@@ -13,7 +14,7 @@ class DetailHomePage extends StatefulWidget {
 }
 
 class _DetailHomePageState extends State<DetailHomePage> {
-  final List<String> items = [
+  final List<String> _tools = [
     "Polo",
     "Badge",
     "Note",
@@ -25,36 +26,85 @@ class _DetailHomePageState extends State<DetailHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              height: 200,
-              padding: EdgeInsets.all(3.w),
-              decoration: BoxDecoration(
-                color: appColor,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20.w),
-                  bottomRight: Radius.circular(20.w),
-                ),
+      backgroundColor: Colors.grey.shade50,
+      body: Stack(
+        children: [
+          // ── Gradient hero background ────────────────────────────────────────
+          Container(
+            height: 26.h,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [appColor, appColorSecondary],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(3.w),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+          ),
+
+          SafeArea(
+            child: Column(
+              children: [
+                // ── Top bar ───────────────────────────────────────────────────
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          padding: EdgeInsets.all(2.w),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.white,
+                            size: 5.w,
+                          ),
+                        ),
+                      ).animate().fade(duration: 400.ms),
+                      Gap(3.w),
+                      Text(
+                        "Détail de l'offre",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.5,
+                        ),
+                      ).animate().fadeIn(duration: 500.ms),
+                    ],
+                  ),
+                ),
+
+                // ── Company hero card ─────────────────────────────────────────
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  child: Container(
+                    padding: EdgeInsets.all(4.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5.w),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.08),
+                          blurRadius: 20,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: Row(
                       children: [
+                        // Logo
                         Container(
-                          padding: EdgeInsets.all(1.5.w),
+                          padding: EdgeInsets.all(2.w),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(3.w),
                             border: Border.all(
-                              color: appColorSecondary,
-                              width: 1,
+                              color: appColorSecondary.withValues(alpha: 0.4),
+                              width: 1.5,
                             ),
                           ),
                           child: Image.asset(
@@ -64,808 +114,492 @@ class _DetailHomePageState extends State<DetailHomePage> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        Gap(2.w),
+                        Gap(3.w),
                         Expanded(
-                          flex: 2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Daymond".toUpperCase(),
+                                "DAYMOND",
                                 style: TextStyle(
-                                  color: appWhite,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
+                                  color: appColorBlack,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 0.5,
                                 ),
                               ),
-                              Text(
-                                "Date limite de l'offre",
-                                style: TextStyle(
-                                  color: appWhite,
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              Gap(0.3.h),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.event_rounded,
+                                    color: Colors.red.shade400,
+                                    size: 3.5.w,
+                                  ),
+                                  Gap(1.w),
+                                  Text(
+                                    "Limite : Jeudi 17 Janvier 2026",
+                                    style: TextStyle(
+                                      color: Colors.red.shade400,
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                "Jeudi 17 Janvier 2026",
-                                style: TextStyle(
-                                  color: appWhite,
-                                  fontSize: 12.sp,
-                                ),
+                              Gap(0.5.h),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on_rounded,
+                                    color: appColor,
+                                    size: 3.5.w,
+                                  ),
+                                  Gap(1.w),
+                                  Text(
+                                    "Abidjan, Yopougon",
+                                    style: TextStyle(
+                                      color: appColorBlack.withValues(
+                                        alpha: 0.55,
+                                      ),
+                                      fontSize: 11.sp,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
-                          ),
-                        ),
-                        Spacer(),
-                        Expanded(
-                          flex: 2,
-                          child: CancelButton(
-                            height: 4.h,
-                            AppConstants.btnJob,
-                            textcouleur: appColor,
-                            onPressed: () {},
                           ),
                         ),
                         Gap(2.w),
+                        // Apply button
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 3.w,
+                              vertical: 1.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: appColor,
+                              borderRadius: BorderRadius.circular(3.w),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: appColor.withValues(alpha: 0.3),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              AppConstants.btnJob,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 9.5.sp,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                    Gap(2.h),
-                    Container(
-                      padding: EdgeInsets.all(3.w),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: appWhite,
-                        borderRadius: BorderRadius.circular(3.w),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black38,
-                            blurRadius: 6,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Informations sur l'entreprise",
+                  ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.1),
+                ),
+
+                Gap(2.h),
+
+                // ── Scrollable content ────────────────────────────────────────
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // About company
+                        _SectionCard(
+                          title: "L'entreprise",
+                          icon: Icons.business_rounded,
+                          delay: 100,
+                          child: Text(
+                            "Currently hosting your website elsewhere? Join the "
+                            "3+ million website owners who enjoy fast, secure and "
+                            "reliable web hosting here at Hostinger. Our expert team "
+                            "will handle everything while your site stays up and running "
+                            "throughout. That's right – no downtime. No data loss. No problem.",
                             style: TextStyle(
-                              color: appColorBlack,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
+                              color: appColorBlack.withValues(alpha: 0.65),
+                              fontSize: 13.sp,
+                              height: 1.6,
                             ),
                           ),
-                          Gap(1.h),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Currently hosting your website elsewhere? Join the "
-                              "3+ million website owners who enjoy fast, "
-                              "secure and reliable web hosting here at Hostinger. "
-                              "Our expert team will handle everything while "
-                              "your site stays up and running throughout. "
-                              "That’s right – no downtime. No data loss. "
-                              "No problem.",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: appColorBlack,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Gap(2.h),
-                    Container(
-                      padding: EdgeInsets.all(3.w),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: appWhite,
-                        borderRadius: BorderRadius.circular(3.w),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black38,
-                            blurRadius: 6,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "La mission",
+                        ),
+
+                        Gap(2.h),
+
+                        // Mission description
+                        _SectionCard(
+                          title: "La mission",
+                          icon: Icons.assignment_rounded,
+                          delay: 150,
+                          child: Text(
+                            "Currently hosting your website elsewhere? Join the "
+                            "3+ million website owners who enjoy fast, secure and "
+                            "reliable web hosting here at Hostinger. Our expert team "
+                            "will handle everything while your site stays up and running.",
                             style: TextStyle(
-                              color: appColorBlack,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
+                              color: appColorBlack.withValues(alpha: 0.65),
+                              fontSize: 13.sp,
+                              height: 1.6,
                             ),
                           ),
-                          Gap(1.h),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Currently hosting your website elsewhere? Join the "
-                              "3+ million website owners who enjoy fast, "
-                              "secure and reliable web hosting here at Hostinger. "
-                              "Our expert team will handle everything while "
-                              "your site stays up and running throughout. "
-                              "That’s right – no downtime. No data loss. "
-                              "No problem.",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: appColorBlack,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Gap(2.h),
-                    Container(
-                      padding: EdgeInsets.all(3.w),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: appWhite,
-                        borderRadius: BorderRadius.circular(3.w),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black38,
-                            blurRadius: 6,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Détail de la mission",
-                            style: TextStyle(
-                              color: appColorBlack,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Gap(1.h),
-                          Row(
+                        ),
+
+                        Gap(2.h),
+
+                        // Mission details grid
+                        _SectionCard(
+                          title: "Détail de la mission",
+                          icon: Icons.info_outline_rounded,
+                          delay: 200,
+                          child: Column(
                             children: [
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
+                              _DetailGrid(
+                                items: const [
+                                  _DetailItem(
+                                    label: "Type de mission",
+                                    value: "Recensement",
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Type de mission",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Recensement",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
+                                  _DetailItem(
+                                    label: "Cible",
+                                    value: "Hommes et Femmes",
                                   ),
-                                ),
-                              ),
-                              Gap(2.w),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
+                                  _DetailItem(
+                                    label: "Lieu",
+                                    value: "🇨🇮 Abidjan, Yopougon",
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Cible",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Les personnes physiques (Homme et Femme)",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
+                                  _DetailItem(
+                                    label: "Objectif",
+                                    value: "200 personnes / mois",
                                   ),
-                                ),
+                                  _DetailItem(
+                                    label: "Canal",
+                                    value: "Terrain & en ligne",
+                                  ),
+                                  _DetailItem(
+                                    label: "Gains",
+                                    value: "1 500 CFA / personne",
+                                    highlight: true,
+                                  ),
+                                  _DetailItem(
+                                    label: "Formation",
+                                    value: "Présentiel – Palmeraie",
+                                  ),
+                                  _DetailItem(label: "Durée", value: "3 mois"),
+                                ],
                               ),
                             ],
                           ),
-                          Gap(1.h),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Lieu de la mission",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "🇨🇮Abidjan, Yopougon",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                        ),
+
+                        Gap(2.h),
+
+                        // Profile required
+                        _SectionCard(
+                          title: "Profil recherché",
+                          icon: Icons.person_search_rounded,
+                          delay: 250,
+                          child: _DetailGrid(
+                            items: const [
+                              _DetailItem(
+                                label: "Genre",
+                                value: "Homme & Femme",
                               ),
-                              Gap(2.w),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Objectif de recensement",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "200 personnes par mois",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              _DetailItem(label: "Âge", value: "14 – 35 ans"),
+                              _DetailItem(
+                                label: "Niveau minimum",
+                                value: "Secondaire / BEPC",
+                              ),
+                              _DetailItem(
+                                label: "Langues",
+                                value: "Français, Anglais",
+                              ),
+                              _DetailItem(
+                                label: "Résidence",
+                                value: "🇨🇮 Yopougon, Adjamé, Cocody",
+                              ),
+                              _DetailItem(
+                                label: "Agents recherchés",
+                                value: "500 agents",
+                                highlight: true,
                               ),
                             ],
                           ),
-                          Gap(1.h),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Canal de recrutement",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Sur le terrain, en ligne",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Gap(2.w),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Gains",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "1500 / Personne",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Gap(1.h),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Modalité de formation",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "En presentiel  Palmerais",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Gap(2.w),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Durée de la mission",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "3 Mois",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Gap(2.h),
-                    Container(
-                      padding: EdgeInsets.all(3.w),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: appWhite,
-                        borderRadius: BorderRadius.circular(3.w),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black38,
-                            blurRadius: 6,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Profil recherché",
-                            style: TextStyle(
-                              color: appColorBlack,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Gap(1.h),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Gens",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Homme et Femme",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Gap(2.w),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Age",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "14-35 Ans",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Gap(1.h),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Niveau d'études minimum",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Secondaire, BEPC",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Gap(2.w),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Langues parlées",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Français, Anglais",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Gap(1.h),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Lieu de residence",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "🇨🇮Abidjan, Yopougon, Adjame, cocody",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Gap(2.w),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(3.w),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: appColor.withValues(alpha: .2),
-                                    borderRadius: BorderRadius.circular(3.w),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Nombre d'agents recherches",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "500 Agents",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: appColorBlack,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Gap(2.h),
-                    Container(
-                      padding: EdgeInsets.all(3.w),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: appWhite,
-                        borderRadius: BorderRadius.circular(3.w),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black38,
-                            blurRadius: 6,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Outils de travail",
-                            style: TextStyle(
-                              color: appColorBlack,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Gap(1.h),
-                          Wrap(
-                            spacing: 2.w,
-                            runSpacing: 2.w,
-                            children: items.map((label) {
+                        ),
+
+                        Gap(2.h),
+
+                        // Tools
+                        _SectionCard(
+                          title: "Outils de travail",
+                          icon: Icons.build_rounded,
+                          delay: 300,
+                          child: Wrap(
+                            spacing: 1.w,
+                            runSpacing: 1.5.w,
+                            children: _tools.map((label) {
                               return Container(
-                                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.w),
-                                decoration: BoxDecoration(
-                                  color: appColor.withValues(alpha: .2),
-                                  borderRadius: BorderRadius.circular(3.w),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 3.5.w,
+                                  vertical: 1.h,
                                 ),
-                                child: Text(
-                                  label,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: appColorBlack,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
+                                decoration: BoxDecoration(
+                                  color: appColor.withValues(alpha: 0.08),
+                                  borderRadius: BorderRadius.circular(10.w),
+                                  border: Border.all(
+                                    color: appColor.withValues(alpha: 0.25),
                                   ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.check_circle_outline_rounded,
+                                      color: appColor,
+                                      size: 3.5.w,
+                                    ),
+                                    Gap(1.5.w),
+                                    Text(
+                                      label,
+                                      style: TextStyle(
+                                        color: appColor,
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
                             }).toList(),
                           ),
-                        ],
-                      ),
+                        ),
+
+                        Gap(2.h),
+
+                        // Deadline banner
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(4.w),
+                          decoration: BoxDecoration(
+                            color: Colors.red.shade50,
+                            borderRadius: BorderRadius.circular(4.w),
+                            border: Border.all(color: Colors.red.shade200),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.timer_outlined,
+                                color: Colors.red.shade400,
+                                size: 6.w,
+                              ),
+                              Gap(3.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Date limite de l'offre",
+                                    style: TextStyle(
+                                      color: Colors.red.shade400,
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Jeudi 17 Janvier 2026",
+                                    style: TextStyle(
+                                      color: Colors.red.shade700,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ).animate().fadeIn(
+                          duration: 500.ms,
+                          delay: Duration(milliseconds: 350),
+                        ),
+
+                        Gap(3.h),
+
+                        // CTA button
+                        SubmitButton(
+                          AppConstants.btnJobSend,
+                          onPressed: () async {},
+                        ).animate().fadeIn(
+                          duration: 500.ms,
+                          delay: const Duration(milliseconds: 400),
+                        ),
+
+                        Gap(4.h),
+                      ],
                     ),
-                    Gap(2.h),
-                    Text(
-                      "Date limite de l'offre",
-                      style: TextStyle(
-                        color: appColorBlack,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    Text(
-                      "Jeudi 17 janvier 2026",
-                      style: TextStyle(
-                        color: appColorBlack,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    Gap(2.h),
-                    SubmitButton(
-                      AppConstants.btnJobSend,
-                      onPressed: () async {},
-                    )
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Section card ──────────────────────────────────────────────────────────────
+class _SectionCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Widget child;
+  final int delay;
+
+  const _SectionCard({
+    required this.title,
+    required this.icon,
+    required this.child,
+    this.delay = 0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(4.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(4.w),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Section header
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(2.w),
+                    decoration: BoxDecoration(
+                      color: appColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(2.w),
+                    ),
+                    child: Icon(icon, color: appColor, size: 5.w),
+                  ),
+                  Gap(2.w),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: appColorBlack,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Gap(2.h),
+              child,
+            ],
+          ),
+        )
+        .animate()
+        .fadeIn(
+          duration: const Duration(milliseconds: 500),
+          delay: Duration(milliseconds: delay),
+        )
+        .slideY(
+          begin: 0.08,
+          duration: const Duration(milliseconds: 400),
+          delay: Duration(milliseconds: delay),
+        );
+  }
+}
+
+// ── Detail grid (2 columns) ───────────────────────────────────────────────────
+class _DetailGrid extends StatelessWidget {
+  final List<_DetailItem> items;
+
+  const _DetailGrid({required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    final rows = <Widget>[];
+    for (int i = 0; i < items.length; i += 2) {
+      rows.add(
+        Row(
+          children: [
+            Expanded(child: items[i]),
+            Gap(2.w),
+            Expanded(child: i + 1 < items.length ? items[i + 1] : SizedBox()),
           ],
         ),
+      );
+      if (i + 2 < items.length) rows.add(Gap(1.5.h));
+    }
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: rows);
+  }
+}
+
+// ── Detail item tile ──────────────────────────────────────────────────────────
+class _DetailItem extends StatelessWidget {
+  final String label;
+  final String value;
+  final bool highlight;
+
+  const _DetailItem({
+    required this.label,
+    required this.value,
+    this.highlight = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(3.w),
+      decoration: BoxDecoration(
+        color: highlight
+            ? appColor.withValues(alpha: 0.08)
+            : appColor.withValues(alpha: 0.04),
+        borderRadius: BorderRadius.circular(3.w),
+        border: Border.all(
+          color: highlight
+              ? appColor.withValues(alpha: 0.25)
+              : Colors.transparent,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: appColorBlack.withValues(alpha: 0.5),
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Gap(0.4.h),
+          Text(
+            value,
+            style: TextStyle(
+              color: highlight ? appColor : appColorBlack,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }

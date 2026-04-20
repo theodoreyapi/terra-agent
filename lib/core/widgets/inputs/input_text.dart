@@ -19,6 +19,8 @@ class InputText extends StatefulWidget {
   final VoidCallback? onTap;
   final Color? borderColor;
   final Function(String)? onSubmitted;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
   const InputText({
     super.key,
@@ -37,6 +39,8 @@ class InputText extends StatefulWidget {
     this.onTap,
     this.borderColor,
     this.onSubmitted,
+    this.validator,
+    this.onChanged,
   });
 
   @override

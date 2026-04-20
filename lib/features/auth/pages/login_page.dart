@@ -32,22 +32,6 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _focusNode = FocusNode();
   bool _isFocused = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _focusNode.addListener(() {
-      setState(() {
-        _isFocused = _focusNode.hasFocus;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-
   var login = TextEditingController();
   var password = TextEditingController();
 
@@ -56,219 +40,380 @@ class _LoginPageState extends State<LoginPage> {
   PhoneNumber number = PhoneNumber(isoCode: 'CI');
 
   @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() => _isFocused = _focusNode.hasFocus);
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    login.dispose();
+    password.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appColor,
-      body: SafeArea(
-        bottom: false,
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Gap(3.h),
-              Text(
-                AppConstants.appName,
-                style: TextStyle(
-                  color: appWhite,
-                  fontSize: 25.sp,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1.2,
-                ),
-              ).animate().fadeIn(duration: 500.ms).slideY(begin: -0.3),
-              Gap(5.h),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height,
-                    padding: EdgeInsets.all(3.w),
-                    decoration: BoxDecoration(
-                      color: appWhite,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(6.w),
-                        topRight: Radius.circular(6.w),
+      body: Stack(
+        children: [
+          // ── Decorative circles in background ──────────────────────
+          Positioned(
+            top: -6.w,
+            right: -8.w,
+            child: Container(
+              width: 40.w,
+              height: 40.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.08),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 8.h,
+            left: -12.w,
+            child: Container(
+              width: 28.w,
+              height: 28.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.06),
+              ),
+            ),
+          ),
+
+          // ── Main content ───────────────────────────────────────────
+          SafeArea(
+            bottom: false,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Gap(4.h),
+
+                  // Logo / App name
+                  Column(
+                    children: [
+                      Container(
+                            width: 16.w,
+                            height: 16.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.work_rounded,
+                              color: Colors.white,
+                              size: 8.w,
+                            ),
+                          )
+                          .animate()
+                          .fade(duration: 500.ms)
+                          .scale(begin: Offset(0.7, 0.7)),
+                      Gap(1.5.h),
+                      Text(
+                        AppConstants.appName,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.5,
+                        ),
+                      ).animate().fadeIn(duration: 600.ms).slideY(begin: -0.2),
+                      Gap(0.5.h),
+                      Text(
+                        "Votre plateforme emploi",
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.75),
+                          fontSize: 14.sp,
+                          letterSpacing: 0.5,
+                        ),
+                      ).animate().fadeIn(duration: 700.ms),
+                    ],
+                  ),
+
+                  Gap(4.h),
+
+                  // ── White card ─────────────────────────────────────
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8.w),
+                          topRight: Radius.circular(8.w),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 20,
+                            offset: Offset(0, -4),
+                          ),
+                        ],
+                      ),
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 6.w,
+                          vertical: 4.h,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Title
+                            Text(
+                              "Bienvenue 👋",
+                              style: TextStyle(
+                                color: appColorBlack,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ).animate().fadeIn(duration: 600.ms),
+
+                            Gap(0.8.h),
+
+                            Text(
+                              "Connectez-vous à votre espace personnel.",
+                              style: TextStyle(
+                                color: appColorBlack.withValues(alpha: 0.5),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                height: 1.5,
+                              ),
+                            ).animate().fadeIn(duration: 700.ms),
+
+                            Gap(4.h),
+
+                            // ── Phone label ────────────────────────────
+                            _FieldLabel("Numéro de téléphone"),
+                            Gap(0.8.h),
+
+                            // Phone input
+                            AnimatedContainer(
+                              duration: 250.ms,
+                              padding: EdgeInsets.symmetric(horizontal: 3.w),
+                              decoration: BoxDecoration(
+                                color: appColorGrey,
+                                borderRadius: BorderRadius.circular(3.w),
+                                border: Border.all(
+                                  color: _isFocused
+                                      ? appColor
+                                      : Colors.transparent,
+                                  width: 1.8,
+                                ),
+                              ),
+                              child: InternationalPhoneNumberInput(
+                                focusNode: _focusNode,
+                                onInputChanged: (PhoneNumber number) {
+                                  phoneIndicator = number.phoneNumber!;
+                                },
+                                onInputValidated: (bool value) {},
+                                errorMessage: "Le numéro est invalide",
+                                hintText: "07 00 00 00 00",
+                                selectorConfig: const SelectorConfig(
+                                  selectorType:
+                                      PhoneInputSelectorType.BOTTOM_SHEET,
+                                ),
+                                countries: ['CI'],
+                                ignoreBlank: false,
+                                autoValidateMode: AutovalidateMode.disabled,
+                                selectorTextStyle: TextStyle(
+                                  color: Colors.black,
+                                ),
+                                initialValue: number,
+                                textFieldController: login,
+                                formatInput: true,
+                                keyboardType:
+                                TextInputType.numberWithOptions(
+                                      signed: true,
+                                      decimal: true,
+                                    ),
+                                inputBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                ),
+                                onSaved: (PhoneNumber number) {},
+                              ),
+                            ).animate().fadeIn(duration: 800.ms),
+
+                            Gap(2.5.h),
+
+                            // ── Password label ─────────────────────────
+                            _FieldLabel("Mot de passe"),
+                            Gap(0.8.h),
+
+                            InputPassword(
+                              hintText: "••••••••",
+                              controller: password,
+                              validatorMessage:
+                                  "Veuillez saisir votre mot de passe",
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscure
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  color: appColor,
+                                  size: 5.w,
+                                ),
+                                onPressed: () =>
+                                    setState(() => _obscure = !_obscure),
+                              ),
+                            ).animate().fadeIn(duration: 900.ms),
+
+                            // Forgot password
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ForgotPage(),
+                                  ),
+                                ),
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: Text(
+                                  "Mot de passe oublié ?",
+                                  style: TextStyle(
+                                    color: appColorSecondary,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ).animate().fadeIn(duration: 1000.ms),
+
+                            Gap(3.h),
+
+                            // Login button
+                            SubmitButton(
+                              AppConstants.btnLogin,
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MenuPage(),
+                                    ),
+                                  );
+                                  // loginUser(context);
+                                } else {
+                                  SnackbarHelper.showError(
+                                    context,
+                                    "Tous les champs sont obligatoires",
+                                  );
+                                }
+                              },
+                            ).animate().fadeIn(duration: 1100.ms),
+
+                            Gap(3.h),
+
+                            // Divider
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.grey.shade300,
+                                    thickness: 1,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 3.w,
+                                  ),
+                                  child: Text(
+                                    "ou",
+                                    style: TextStyle(
+                                      color: Colors.grey.shade400,
+                                      fontSize: 10.sp,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.grey.shade300,
+                                    thickness: 1,
+                                  ),
+                                ),
+                              ],
+                            ).animate().fadeIn(duration: 1200.ms),
+
+                            Gap(2.5.h),
+
+                            // Register link
+                            Center(
+                              child: GestureDetector(
+                                onTap: () =>
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (_) => RegisterPage(),
+                                      ),
+                                    ),
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: "Pas encore de compte ? ",
+                                    style: TextStyle(
+                                      color: Colors.grey.shade500,
+                                      fontSize: 14.sp,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: AppConstants.btnRegister,
+                                        style: TextStyle(
+                                          color: appColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ).animate().fadeIn(duration: 1300.ms),
+
+                            Gap(4.h),
+                          ],
+                        ),
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Bienvenue 👋",
-                          style: TextStyle(
-                            color: appColorBlack,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ).animate().fadeIn(duration: 600.ms),
-                        Gap(1.h),
-                        Text(
-                          "Veuillez renseigner vos informations pour vous reconnecter à votre espace.",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: appColorBlack,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ).animate().fadeIn(duration: 800.ms),
-                        Gap(4.h),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 4.w),
-                          decoration: BoxDecoration(
-                            color: appColorGrey,
-                            borderRadius: BorderRadius.circular(3.w),
-
-                            border: Border.all(
-                              color: _isFocused ? appColor : Colors.transparent,
-                              width: 1.5,
-                            ),
-                          ),
-                          child: InternationalPhoneNumberInput(
-                            focusNode: _focusNode,
-                            onInputChanged: (PhoneNumber number) {
-                              phoneIndicator = number.phoneNumber!;
-                            },
-                            onInputValidated: (bool value) {},
-                            errorMessage: "Le numéro est invalide",
-                            hintText: "Numéro de téléphone",
-                            selectorConfig: const SelectorConfig(
-                              selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                            ),
-                            countries: ['CI'],
-                            ignoreBlank: false,
-                            autoValidateMode: AutovalidateMode.disabled,
-                            selectorTextStyle: const TextStyle(
-                              color: Colors.black,
-                            ),
-                            initialValue: number,
-                            textFieldController: login,
-                            formatInput: true,
-                            keyboardType: const TextInputType.numberWithOptions(
-                              signed: true,
-                              decimal: true,
-                            ),
-                            inputBorder: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
-                            onSaved: (PhoneNumber number) {},
-                          ),
-                        ).animate().fadeIn(duration: 900.ms),
-                        Gap(2.h),
-                        InputPassword(
-                          hintText: "Mot de passe",
-                          controller: password,
-                          validatorMessage:
-                              "Veuillez saisir votre mot de passe",
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscure
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: appColor,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _obscure = !_obscure;
-                              });
-                            },
-                          ),
-                        ).animate().fadeIn(duration: 1000.ms),
-                        Gap(1.h),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const ForgotPage(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              "Mot de passe oublié ?",
-                              style: TextStyle(
-                                color: appColorSecondary,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ).animate().fadeIn(duration: 1100.ms),
-                        Gap(4.h),
-                        SubmitButton(
-                          AppConstants.btnLogin,
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MenuPage(),
-                                ),
-                              );
-
-                              ///loginUser(context);
-                            } else {
-                              SnackbarHelper.showError(
-                                context,
-                                "Tous les champs sont obligatoires",
-                              );
-                            }
-                          },
-                        ).animate().fadeIn(duration: 1200.ms),
-                        Gap(3.h),
-                        Center(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (_) => RegisterPage(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              "Pas encore de compte ? ${AppConstants.btnRegister}",
-                              style: TextStyle(
-                                color: appColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                        ).animate().fadeIn(duration: 1300.ms),
-                      ],
-                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
   Future<void> loginUser(BuildContext context) async {
-    // Afficher une boîte de dialogue de chargement
     showDialog(
       context: context,
-      barrierDismissible: false, // Empêcher de fermer en cliquant dehors
-      builder: (context) {
-        return AlertDialog(
-          content: Row(
-            children: [
-              const CircularProgressIndicator(),
-              const SizedBox(width: 20),
-              const Expanded(child: Text('Connexion encours...')),
-            ],
-          ),
-        );
-      },
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.w)),
+        content: Row(
+          children: [
+            CircularProgressIndicator(color: appColor),
+            SizedBox(width: 20),
+            Expanded(
+              child: Text(
+                'Connexion en cours...',
+                style: TextStyle(fontSize: 12.sp),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
 
     try {
-      // Autoriser les certificats auto-signés (attention en production)
       HttpClient().badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
 
@@ -281,6 +426,9 @@ class _LoginPageState extends State<LoginPage> {
       final Map<String, dynamic> responseData = jsonDecode(
         utf8.decode(response.bodyBytes),
       );
+
+      if (!mounted) return;
+      Navigator.pop(context); // close loader
 
       if (response.statusCode == 200) {
         await Future.wait([
@@ -327,19 +475,36 @@ class _LoginPageState extends State<LoginPage> {
         ]);
 
         SnackbarHelper.showSuccess(context, responseData['message']);
-        Navigator.pop(context);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const MenuPage()),
           (route) => false,
         );
       } else {
-        Navigator.pop(context);
         SnackbarHelper.showError(context, responseData['message']);
       }
     } catch (e) {
-      Navigator.pop(context);
-      SnackbarHelper.showError(context, "Erreur de connexion $e");
+      if (mounted) Navigator.pop(context);
+      SnackbarHelper.showError(context, "Erreur de connexion : $e");
     }
+  }
+}
+
+// ── Small reusable field label ────────────────────────────────────────────────
+class _FieldLabel extends StatelessWidget {
+  final String text;
+
+  const _FieldLabel(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 13.sp,
+        fontWeight: FontWeight.w600,
+        color: appColorBlack.withValues(alpha: 0.7),
+      ),
+    );
   }
 }

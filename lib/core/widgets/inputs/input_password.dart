@@ -7,6 +7,8 @@ class InputPassword extends StatefulWidget {
   final String validatorMessage;
   final String? hintText;
   final Widget? prefixIcon;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
   const InputPassword({
     super.key,
@@ -14,6 +16,8 @@ class InputPassword extends StatefulWidget {
     required this.validatorMessage,
     this.hintText,
     this.prefixIcon,
+    this.validator,
+    this.onChanged,
     required IconButton suffixIcon,
   });
 
@@ -32,6 +36,8 @@ class _InputPasswordState extends State<InputPassword> {
       obscureText: _obscure,
       prefixIcon: widget.prefixIcon,
       hintText: widget.hintText,
+      onChanged: widget.onChanged,
+      validator: widget.validator,
       suffixIcon: IconButton(
         icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
         onPressed: () {
