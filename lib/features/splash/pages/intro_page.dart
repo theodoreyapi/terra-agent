@@ -8,6 +8,7 @@ import '../../../core/constants/constants.dart';
 import '../../../core/themes/themes.dart';
 import '../../../core/widgets/buttons/buttons.dart';
 import '../../auth/auth.dart';
+import '../../menu/menu.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});
@@ -74,7 +75,7 @@ class _IntroPageState extends State<IntroPage> {
                   child: TextButton(
                     onPressed: () => Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (_) => LoginPage()),
+                      MaterialPageRoute(builder: (_) => MenuPage()),
                     ),
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.white.withValues(alpha: 0.2),

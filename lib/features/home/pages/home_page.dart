@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 2.5.h),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [appColor, appColorSecondary],
+                  colors: [appColor, const Color(0xFF0057B8)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -40,159 +40,229 @@ class _HomePageState extends State<HomePage> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: appColor.withValues(alpha: 0.3),
-                    blurRadius: 16,
-                    offset: const Offset(0, 6),
+                    color: appColor.withValues(alpha: 0.35),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
                   ),
                 ],
               ),
-              child: Column(
+              child: Stack(
                 children: [
-                  // Greeting row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // ── Cercles décoratifs ──
+                  Positioned(
+                    top: -40,
+                    right: -40,
+                    child: Container(
+                      width: 180,
+                      height: 180,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.10),
+                          width: 40,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -60,
+                    left: -40,
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.07),
+                          width: 50,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // ── Grille de points décoratifs ──
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: SizedBox(
+                      width: 120,
+                      height: 80,
+                      child: CustomPaint(painter: _DotGridPainter()),
+                    ),
+                  ),
+
+                  // ── Contenu principal ──
+                  Column(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      // Greeting row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Bonjour 👋",
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.8),
-                              fontSize: 11.sp,
-                            ),
-                          ),
-                          Text(
-                            "Jean Konan",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => NotificationPage()),
-                        ),
-                        child: CircleAvatar(
-                          radius: 5.w,
-                          backgroundColor: Colors.white.withValues(alpha: 0.2),
-                          child: Icon(
-                            Icons.notifications_active,
-                            color: Colors.white,
-                            size: 6.w,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ).animate().fadeIn(duration: 500.ms),
-
-                  Gap(2.h),
-
-                  // Balance + Cashout row
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 4.w,
-                      vertical: 2.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(4.w),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.2),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Solde disponible",
+                                "Bonjour 👋",
                                 style: TextStyle(
-                                  color: Colors.white.withValues(alpha: 0.75),
-                                  fontSize: 12.sp,
+                                  color: Colors.white.withValues(alpha: 0.82),
+                                  fontSize: 11.sp,
                                 ),
                               ),
-                              Gap(0.4.h),
                               Text(
-                                "38 000 CFA",
+                                "Jean Konan",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Gap(0.6.h),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.lock_outline_rounded,
-                                    color: Colors.white.withValues(alpha: 0.6),
-                                    size: 3.5.w,
+                            ],
+                          ),
+                          Stack(
+                            children: [
+                              GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => NotificationPage()),
+                                ),
+                                child: CircleAvatar(
+                                  radius: 5.w,
+                                  backgroundColor: Colors.white.withValues(alpha: 0.18),
+                                  child: Icon(
+                                    Icons.notifications_active,
+                                    color: Colors.white,
+                                    size: 6.w,
                                   ),
-                                  Gap(1.w),
-                                  Text(
-                                    "17 800 CFA bloqués",
-                                    style: TextStyle(
-                                      color: Colors.white.withValues(
-                                        alpha: 0.9,
-                                      ),
-                                      fontSize: 11.sp,
-                                    ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFFF4D6D),
+                                    shape: BoxShape.circle,
                                   ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
+                        ],
+                      ).animate().fadeIn(duration: 500.ms),
+
+                      Gap(2.h),
+
+                      // Balance card
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white.withValues(alpha: 0.18),
+                              Colors.white.withValues(alpha: 0.06),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(4.5.w),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.22),
+                          ),
                         ),
-                        Gap(3.w),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 4.w,
-                              vertical: 1.2.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(3.w),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.1),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
+                        child: Column(
+                          children: [
+                            Row(
                               children: [
-                                Icon(
-                                  Icons.account_balance_wallet_rounded,
-                                  color: appColor,
-                                  size: 4.5.w,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Solde disponible",
+                                        style: TextStyle(
+                                          color: Colors.white.withValues(alpha: 0.78),
+                                          fontSize: 12.sp,
+                                        ),
+                                      ),
+                                      Gap(0.4.h),
+                                      Text(
+                                        "38 000 CFA",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.sp,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      Gap(0.6.h),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.lock_outline_rounded,
+                                            color: Colors.white.withValues(alpha: 0.65),
+                                            size: 3.5.w,
+                                          ),
+                                          Gap(1.w),
+                                          Text(
+                                            "17 800 CFA bloqués",
+                                            style: TextStyle(
+                                              color: Colors.white.withValues(alpha: 0.85),
+                                              fontSize: 11.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Gap(1.5.w),
-                                Text(
-                                  AppConstants.btnCashOut,
-                                  style: TextStyle(
-                                    color: appColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12.sp,
+                                Gap(3.w),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 4.w,
+                                      vertical: 1.2.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(3.5.w),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withValues(alpha: 0.12),
+                                          blurRadius: 10,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.account_balance_wallet_rounded,
+                                          color: appColor,
+                                          size: 4.5.w,
+                                        ),
+                                        Gap(1.5.w),
+                                        Text(
+                                          AppConstants.btnCashOut,
+                                          style: TextStyle(
+                                            color: appColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12.sp,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.1),
+                      ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.1),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -538,4 +608,21 @@ class _InfoRow extends StatelessWidget {
       ],
     );
   }
+}
+
+class _DotGridPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.18)
+      ..style = PaintingStyle.fill;
+    const spacing = 18.0;
+    for (double x = 0; x < size.width; x += spacing) {
+      for (double y = 0; y < size.height; y += spacing) {
+        canvas.drawCircle(Offset(x, y), 2.5, paint);
+      }
+    }
+  }
+  @override
+  bool shouldRepaint(_) => false;
 }

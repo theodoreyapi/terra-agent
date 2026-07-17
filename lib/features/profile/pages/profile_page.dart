@@ -51,24 +51,32 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // ── Hero header ─────────────────────────────────────────────────
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [appColor, appColorSecondary],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+        child: SafeArea(
+          child: Column(
+            children: [
+              // ── Hero header ─────────────────────────────────────────────────
+              Container(
+                padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 2.5.h),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [appColor, const Color(0xFF0057B8)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(6.w),
+                    bottomRight: Radius.circular(6.w),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: appColor.withValues(alpha: 0.35),
+                      blurRadius: 20,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
                 ),
-              ),
-              child: SafeArea(
-                bottom: false,
                 child: Column(
                   children: [
-                    Gap(2.h),
-
                     // Avatar
                     Stack(
                           clipBehavior: Clip.none,
@@ -178,162 +186,150 @@ class _ProfilePageState extends State<ProfilePage> {
                         _InfoChip(icon: Icons.star_rounded, label: "4.8 / 5"),
                       ],
                     ).animate().fadeIn(duration: 800.ms),
+                  ],
+                ),
+              ),
 
-                    Gap(3.h),
+              Gap(3.h),
 
-                    // Wave bottom
-                    Container(
-                      height: 3.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade50,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8.w),
-                          topRight: Radius.circular(8.w),
-                        ),
+              // ── Stats grid ───────────────────────────────────────────────────
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Statistiques",
+                      style: TextStyle(
+                        color: appColorBlack,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
                       ),
+                    ).animate().fadeIn(duration: 700.ms),
+                    Gap(1.h),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _stats.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 3.w,
+                        mainAxisSpacing: 3.w,
+                        childAspectRatio: 1.05,
+                      ),
+                      itemBuilder: (context, index) {
+                        return _StatCard(
+                          item: _stats[index],
+                          delay: 100 + index * 80,
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
-            ),
 
-            // ── Stats grid ───────────────────────────────────────────────────
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Statistiques",
-                    style: TextStyle(
-                      color: appColorBlack,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ).animate().fadeIn(duration: 700.ms),
-                  Gap(1.h),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _stats.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 3.w,
-                      mainAxisSpacing: 3.w,
-                      childAspectRatio: 1.05,
-                    ),
-                    itemBuilder: (context, index) {
-                      return _StatCard(
-                        item: _stats[index],
-                        delay: 100 + index * 80,
-                      );
-                    },
-                  ),
-                ],
+              Gap(3.h),
+
+              // ── Profile info section ─────────────────────────────────────────
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Informations personnelles",
+                      style: TextStyle(
+                        color: appColorBlack,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ).animate().fadeIn(duration: 800.ms),
+                    Gap(1.5.h),
+                    _ProfileInfoCard(
+                      items: [
+                        _ProfileInfoItem(
+                          icon: Icons.phone_rounded,
+                          label: "Téléphone",
+                          value: "+225 07 00 00 00 00",
+                        ),
+                        _ProfileInfoItem(
+                          icon: Icons.email_rounded,
+                          label: "E-mail",
+                          value: "yapi.theodore@mail.com",
+                        ),
+                        _ProfileInfoItem(
+                          icon: Icons.cake_rounded,
+                          label: "Date de naissance",
+                          value: "15/06/1998",
+                        ),
+                        _ProfileInfoItem(
+                          icon: Icons.location_on_rounded,
+                          label: "Commune",
+                          value: "Cocody, Abidjan",
+                        ),
+                      ],
+                    ).animate().fadeIn(duration: 900.ms),
+                  ],
+                ),
               ),
-            ),
 
-            Gap(3.h),
+              Gap(3.h),
 
-            // ── Profile info section ─────────────────────────────────────────
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Informations personnelles",
-                    style: TextStyle(
-                      color: appColorBlack,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
+              // ── Actions ──────────────────────────────────────────────────────
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                child: Column(
+                  children: [
+                    _ActionTile(
+                      icon: Icons.edit_outlined,
+                      label: "Modifier le profil",
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => EditProfilePage()),
+                      ),
+                      delay: 200,
                     ),
-                  ).animate().fadeIn(duration: 800.ms),
-                  Gap(1.5.h),
-                  _ProfileInfoCard(
-                    items: [
-                      _ProfileInfoItem(
-                        icon: Icons.phone_rounded,
-                        label: "Téléphone",
-                        value: "+225 07 00 00 00 00",
+                    _ActionTile(
+                      icon: Icons.ballot_outlined,
+                      label: "Documents",
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => MyDocumentsPage()),
                       ),
-                      _ProfileInfoItem(
-                        icon: Icons.email_rounded,
-                        label: "E-mail",
-                        value: "yapi.theodore@mail.com",
+                      delay: 260,
+                    ),
+                    _ActionTile(
+                      icon: Icons.lock_outline_rounded,
+                      label: "Changer le mot de passe",
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => ChangePasswordPage()),
                       ),
-                      _ProfileInfoItem(
-                        icon: Icons.cake_rounded,
-                        label: "Date de naissance",
-                        value: "15/06/1998",
+                      delay: 320,
+                    ),
+                    _ActionTile(
+                      icon: Icons.help_outline_rounded,
+                      label: "Aide & Support",
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => HelpSupportPage()),
                       ),
-                      _ProfileInfoItem(
-                        icon: Icons.location_on_rounded,
-                        label: "Commune",
-                        value: "Cocody, Abidjan",
-                      ),
-                    ],
-                  ).animate().fadeIn(duration: 900.ms),
-                ],
+                      delay: 380,
+                    ),
+                    _ActionTile(
+                      icon: Icons.logout_rounded,
+                      label: "Se déconnecter",
+                      onTap: () => showLogoutDialog(context),
+                      color: Colors.red.shade400,
+                      delay: 440,
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-            Gap(3.h),
-
-            // ── Actions ──────────────────────────────────────────────────────
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
-              child: Column(
-                children: [
-                  _ActionTile(
-                    icon: Icons.edit_outlined,
-                    label: "Modifier le profil",
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => EditProfilePage()),
-                    ),
-                    delay: 200,
-                  ),
-                  _ActionTile(
-                    icon: Icons.ballot_outlined,
-                    label: "Documents",
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => MyDocumentsPage()),
-                    ),
-                    delay: 260,
-                  ),
-                  _ActionTile(
-                    icon: Icons.lock_outline_rounded,
-                    label: "Changer le mot de passe",
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => ChangePasswordPage()),
-                    ),
-                    delay: 320,
-                  ),
-                  _ActionTile(
-                    icon: Icons.help_outline_rounded,
-                    label: "Aide & Support",
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => HelpSupportPage()),
-                    ),
-                    delay: 380,
-                  ),
-                  _ActionTile(
-                    icon: Icons.logout_rounded,
-                    label: "Se déconnecter",
-                    onTap: () => showLogoutDialog(context),
-                    color: Colors.red.shade400,
-                    delay: 440,
-                  ),
-                ],
-              ),
-            ),
-
-            Gap(4.h),
-          ],
+              Gap(4.h),
+            ],
+          ),
         ),
       ),
     );
